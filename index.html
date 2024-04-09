@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cipher Tool</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .vertical-line {
+      border-left: 1px solid #ccc;
+      height: 100vh; /* Adjust this if your content is shorter or longer */
+    }
+    .content {
+      display: none; /* Hide all content divs */
+    }
+    .content.active {
+      display: block; /* Show the active content div */
+    }
+    .nav-link.active, .btn.active {
+      background-color: #f0f0f0;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="text-center mt-3">ADFGVX and ADFGX Cipher Tool</h1>
+            <p class="text-center mt-3">By: Ben, Ben and Blake</p>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#adfgx" data-toggle="tab">ADFGX</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#adfgvx" data-toggle="tab">ADFGVX</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <!-- ADFGX content -->
+        <div id="adfgx" class="content active">
+          <div class="m-3">
+            <!-- Placeholder for ADFGX inputs and outputs -->
+            <h5>ADFGX INPUT AND KEY AS WELL AS OUTPUT THINGS WILL BE HERE</h5>
+          </div>
+        </div>
+        <!-- ADFGVX content -->
+        <div id="adfgvx" class="content">
+          <div class="m-3">
+            <!-- Placeholder for ADFGVX inputs and outputs -->
+            <h5>ADFGVX INPUT AND KEY AS WELL AS OUTPUT THINGS WILL BE HERE</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 vertical-line">
+        <div class="border m-3">
+          <button class="btn btn-block active" id="encrypt-btn">Encrypt</button>
+          <button class="btn btn-block" id="decrypt-btn">Decrypt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Optional JavaScript and Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.5/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Event listener for button clicks to handle highlighting
+    document.addEventListener('DOMContentLoaded', function () {
+      const buttons = document.querySelectorAll('.btn');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', function () {
+          buttons.forEach(btn => btn.classList.remove('active')); // Remove active class from all buttons
+          this.classList.add('active'); // Add active class to the clicked button
+        });
+      });
+    });
+  </script>
+</body>
+</html>
