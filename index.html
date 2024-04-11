@@ -9,16 +9,16 @@
   <style>
     .vertical-line {
       border-left: 1px solid #ccc;
-      height: 100vh; /* Adjust this if your content is shorter or longer */
+      height: 100vh;
     }
-    .content {
-      display: none; /* Hide all content divs */
+    .content, .button-group {
+      display: none; /* Hide all content and button groups by default */
     }
-    .content.active {
-      display: block; /* Show the active content div */
+    .active-content {
+      display: block; /* Show the active content and button group */
     }
     .nav-link.active, .btn.active {
-      background-color: #f0f0f0;
+      background-color: #f0f0f0; /* Highlight color for active tab and button */
       color: black;
     }
   </style>
@@ -27,58 +27,111 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <h1 class="text-center mt-3">ADFGVX and ADFGX Cipher Tool</h1>
-            <p class="text-center mt-3">By: Ben, Ben and Blake</p>
-        <ul class="nav nav-tabs">
+        <h1 class="text-center mt-3">TITLE</h1>
+        <ul class="nav nav-tabs" id="cipherTabs">
           <li class="nav-item">
-            <a class="nav-link active" href="#adfgx" data-toggle="tab">ADFGX</a>
+            <a class="nav-link active" href="#adfgx">ADFGX</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#adfgvx" data-toggle="tab">ADFGVX</a>
+            <a class="nav-link" href="#adfgvx">ADFGVX</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="row">
-      <div class="col-9">
+      <div class="col-9" id="mainContent">
         <!-- ADFGX content -->
-        <div id="adfgx" class="content active">
-          <div class="m-3">
-            <!-- Placeholder for ADFGX inputs and outputs -->
-            <h5>ADFGX INPUT AND KEY AS WELL AS OUTPUT THINGS WILL BE HERE</h5>
-          </div>
+        <div id="adfgx-encrypt" class="content">
+          <h5>ADFGX Encrypt CONTENT</h5>
+        </div>
+        <div id="adfgx-decrypt" class="content">
+          <h5>ADFGX Decrypt CONTENT</h5>
         </div>
         <!-- ADFGVX content -->
-        <div id="adfgvx" class="content">
-          <div class="m-3">
-            <!-- Placeholder for ADFGVX inputs and outputs -->
-            <h5>ADFGVX INPUT AND KEY AS WELL AS OUTPUT THINGS WILL BE HERE</h5>
-          </div>
+        <div id="adfgvx-encrypt" class="content">
+          <h5>ADFGVX Encrypt CONTENT</h5>
+        </div>
+        <div id="adfgvx-decrypt" class="content">
+          <h5>ADFGVX Decrypt CONTENT</h5>
         </div>
       </div>
-      <div class="col-3 vertical-line">
-        <div class="border m-3">
-          <button class="btn btn-block active" id="encrypt-btn">Encrypt</button>
-          <button class="btn btn-block" id="decrypt-btn">Decrypt</button>
+      <div class="col-3 vertical-line" id="sideButtons">
+        <!-- ADFGX buttons -->
+        <div id="adfgx-buttons" class="button-group active-content">
+          <button class="btn btn-block active" data-target="adfgx-encrypt">Encrypt</button>
+          <button class="btn btn-block" data-target="adfgx-decrypt">Decrypt</button>
+        </div>
+        <!-- ADFGVX buttons -->
+        <div id="adfgvx-buttons" class="button-group">
+          <button class="btn btn-block" data-target="adfgvx-encrypt">Encrypt</button>
+          <button class="btn btn-block" data-target="adfgvx-decrypt">Decrypt</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Optional JavaScript and Bootstrap JS -->
+  <!-- Bootstrap's JavaScript dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.5/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Page-specific JavaScript -->
   <script>
-    // Event listener for button clicks to handle highlighting
     document.addEventListener('DOMContentLoaded', function () {
-      const buttons = document.querySelectorAll('.btn');
-      
-      buttons.forEach(button => {
-        button.addEventListener('click', function () {
-          buttons.forEach(btn => btn.classList.remove('active')); // Remove active class from all buttons
-          this.classList.add('active'); // Add active class to the clicked button
+      const tabs = document.querySelectorAll('#cipherTabs .nav-item .nav-link');
+      const buttonGroups = document.querySelectorAll('.button-group');
+      const contentDivs = document.querySelectorAll('.content');
+
+      function deactivateAll(elements) {
+        elements.forEach(element => element.classList.remove('active', 'active-content'));
+      }
+
+      function activate(element, contentId = null) {
+        element.classList.add('active');
+        if (contentId) {
+          const content = document.getElementById(contentId);
+          if (content) {
+            deactivateAll(contentDivs);
+            content.classList.add('active-content');
+          }
+        }
+      }
+
+      function activateFirstButtonOfGroup(buttonGroup) {
+        const firstButton = buttonGroup.querySelector('.btn');
+        deactivateAll(buttonGroup.querySelectorAll('.btn'));
+        activate(firstButton, firstButton.getAttribute('data-target'));
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function (e) {
+          e.preventDefault();
+          activateTabAndButtons(this);
         });
       });
+
+      function activateTabAndButtons(tab) {
+        deactivateAll(tabs);
+        deactivateAll(buttonGroups);
+        tab.classList.add('active');
+        const buttonGroupID = tab.getAttribute('href').slice(1) + '-buttons';
+        const buttonGroup = document.getElementById(buttonGroupID);
+        buttonGroup.classList.add('active-content');
+        activateFirstButtonOfGroup(buttonGroup);
+      }
+
+      buttonGroups.forEach(group => {
+        const buttons = group.querySelectorAll('.btn');
+        buttons.forEach(button => {
+          button.addEventListener('click', function () {
+            deactivateAll(buttons);
+            activate(this, this.getAttribute('data-target'));
+          });
+        });
+      });
+
+      // Initialize the page with the first tab activated and its first button active
+      if (tabs.length > 0) {
+        tabs[0].click();
+      }
     });
   </script>
 </body>
