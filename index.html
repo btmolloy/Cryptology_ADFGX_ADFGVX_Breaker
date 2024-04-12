@@ -6,6 +6,7 @@
   <title>Cipher Tool</title>
   <!-- Include Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/images/T5.png">
   <style>
     .vertical-line {
@@ -45,18 +46,381 @@
     <div class="row">
       <div class="col-9" id="mainContent">
         <!-- ADFGX content -->
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div id="adfgx-encrypt" class="content">
-          <h5>ADFGX Encrypt CONTENT</h5>
+          <div class="container">
+            <div class="input-box text-center">
+              <label for="keyword1">Keyword:</label>
+              <input type="text" id="keyword1" name="keyword1" class="form-control mb-3 mx-auto">
+          </div>
+          <div class="input-box text-center">
+              <label for="plainText1">Plain Text:</label>
+              <textarea id="plainText1" name="plainText1" rows="4" class="form-control mb-3 mx-auto"></textarea>
+          </div>
+            <div class="grid grid1">
+              <div class="row header">
+                  <div class="cell label"></div> <!-- Empty top-left cell -->
+                  <div class="cell label">A</div>
+                  <div class="cell label">D</div>
+                  <div class="cell label">F</div>
+                  <div class="cell label">G</div>
+                  <div class="cell label">X</div>
+              </div>
+              <div class="row">
+                  <div class="cell label">A</div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+              </div>
+              <div class="row">
+                <div class="cell label">D</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+              <div class="row">
+                <div class="cell label">F</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                </div>
+              <div class="row">
+                <div class="cell label">G</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+            <div class="row">
+              <div class="cell label">X</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+          </div>
+          <!-- Submit Button -->
+          <div class="text-center btn-submit-container">
+            <button id="submit1" class="btn btn-primary mt-3">Submit</button>
+            <button id="reset1" class="btn btn-secondary mt-3 ml-2">Reset</button>
         </div>
+          </div>        
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <div id="adfgx-decrypt" class="content">
-          <h5>ADFGX Decrypt CONTENT</h5>
+          <div class="container">
+            <div class="input-box text-center">
+              <label for="keyword2">Keyword:</label>
+              <input type="text" id="keyword2" name="keyword2" class="form-control mb-3 mx-auto">
+          </div>
+          <div class="input-box text-center">
+              <label for="cipherText2">Cipher Text:</label>
+              <textarea id="cipherText2" name="cipherText2" rows="4" class="form-control mb-3 mx-auto"></textarea>
+          </div>
+            <div class="grid grid2">
+              <div class="row header">
+                  <div class="cell label"></div> <!-- Empty top-left cell -->
+                  <div class="cell label">A</div>
+                  <div class="cell label">D</div>
+                  <div class="cell label">F</div>
+                  <div class="cell label">G</div>
+                  <div class="cell label">X</div>
+              </div>
+              <div class="row">
+                  <div class="cell label">A</div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+              </div>
+              <div class="row">
+                <div class="cell label">D</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+              <div class="row">
+                <div class="cell label">F</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                </div>
+              <div class="row">
+                <div class="cell label">G</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+            <div class="row">
+              <div class="cell label">X</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+          </div>
+          <!-- Submit Button -->
+          <div class="text-center btn-submit-container">
+            <button id="submit2" class="btn btn-primary mt-3">Submit</button>
+            <button id="reset2" class="btn btn-secondary mt-3 ml-2">Reset</button>
+        </div>
+          </div>
         </div>
         <!-- ADFGVX content -->
-        <div id="adfgvx-encrypt" class="content">
-          <h5>ADFGVX Encrypt CONTENT</h5>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="adfgvx-encrypt" class="content adfgvx-grid-container">
+  <div class="container-fluid"> <!-- Changed to container-fluid for full width -->
+      <div class="input-box text-center">
+          <label for="keyword3">Keyword:</label>
+          <input type="text" id="keyword3" name="keyword3" class="form-control mb-3 mx-auto">
+      </div>
+      <div class="input-box text-center">
+          <label for="plainText3">Plain Text:</label>
+          <textarea id="plainText3" name="plainText3" rows="4" class="form-control mb-3 mx-auto"></textarea>
+      </div>
+      <div class="adfgvx-grid mx-auto grid3"> <!-- Use adfgvx-grid class for styling -->
+          <div class="row header">
+                  <div class="cell label"></div> <!-- Empty top-left cell -->
+                  <div class="cell label">A</div>
+                  <div class="cell label">D</div>
+                  <div class="cell label">F</div>
+                  <div class="cell label">G</div>
+                  <div class="cell label">V</div>
+                  <div class="cell label">X</div>
+              </div>
+              <div class="row">
+                  <div class="cell label">A</div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+              </div>
+              <div class="row">
+                <div class="cell label">D</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+              <div class="row">
+                <div class="cell label">F</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                </div>
+              <div class="row">
+                <div class="cell label">G</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+            <div class="row">
+              <div class="cell label">V</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+            <div class="row">
+              <div class="cell label">X</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+          </div>
+          <!-- Submit Button -->
+          <div class="text-center btn-submit-container">
+            <button id="submit3" class="btn btn-primary mt-3">Submit</button>
+            <button id="reset3" class="btn btn-secondary mt-3 ml-2">Reset</button>
         </div>
-        <div id="adfgvx-decrypt" class="content">
-          <h5>ADFGVX Decrypt CONTENT</h5>
+          </div>
+        </div>
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+        <div id="adfgvx-decrypt" class="content adfgvx-grid-container">
+          <div class="container-fluid"> <!-- Changed to container-fluid for full width -->
+              <div class="input-box text-center">
+                  <label for="keyword4">Keyword:</label>
+                  <input type="text" id="keyword4" name="keyword4" class="form-control mb-3 mx-auto">
+              </div>
+              <div class="input-box text-center">
+                  <label for="cipherText4">Cipher Text:</label>
+                  <textarea id="cipherText4" name="cipherText4" rows="4" class="form-control mb-3 mx-auto"></textarea>
+              </div>
+              <div class="adfgvx-grid mx-auto grid4"> <!-- Use adfgvx-grid class for styling -->
+                  <div class="row header">
+                  <div class="cell label"></div> <!-- Empty top-left cell -->
+                  <div class="cell label">A</div>
+                  <div class="cell label">D</div>
+                  <div class="cell label">F</div>
+                  <div class="cell label">G</div>
+                  <div class="cell label">V</div>
+                  <div class="cell label">X</div>
+              </div>
+              <div class="row">
+                  <div class="cell label">A</div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+                  <div class="cell"><input type="text" maxlength="1"></div>
+              </div>
+              <div class="row">
+                <div class="cell label">D</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+              <div class="row">
+                <div class="cell label">F</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                </div>
+              <div class="row">
+                <div class="cell label">G</div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+                <div class="cell"><input type="text" maxlength="1"></div>
+            </div>
+            <div class="row">
+              <div class="cell label">V</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+            <div class="row">
+              <div class="cell label">X</div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+              <div class="cell"><input type="text" maxlength="1"></div>
+          </div>
+          </div>
+          <!-- Submit Button -->
+          <div class="text-center btn-submit-container">
+            <button id="submit4" class="btn btn-primary mt-3">Submit</button>
+            <button id="reset4" class="btn btn-secondary mt-3 ml-2">Reset</button>
+        </div>
+          </div>
         </div>
       </div>
       <div class="col-3 vertical-line" id="sideButtons">
@@ -78,65 +442,7 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.5/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- Page-specific JavaScript -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const tabs = document.querySelectorAll('#cipherTabs .nav-item .nav-link');
-      const buttonGroups = document.querySelectorAll('.button-group');
-      const contentDivs = document.querySelectorAll('.content');
+  <script src="main.js"></script>
 
-      function deactivateAll(elements) {
-        elements.forEach(element => element.classList.remove('active', 'active-content'));
-      }
-
-      function activate(element, contentId = null) {
-        element.classList.add('active');
-        if (contentId) {
-          const content = document.getElementById(contentId);
-          if (content) {
-            deactivateAll(contentDivs);
-            content.classList.add('active-content');
-          }
-        }
-      }
-
-      function activateFirstButtonOfGroup(buttonGroup) {
-        const firstButton = buttonGroup.querySelector('.btn');
-        deactivateAll(buttonGroup.querySelectorAll('.btn'));
-        activate(firstButton, firstButton.getAttribute('data-target'));
-      }
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function (e) {
-          e.preventDefault();
-          activateTabAndButtons(this);
-        });
-      });
-
-      function activateTabAndButtons(tab) {
-        deactivateAll(tabs);
-        deactivateAll(buttonGroups);
-        tab.classList.add('active');
-        const buttonGroupID = tab.getAttribute('href').slice(1) + '-buttons';
-        const buttonGroup = document.getElementById(buttonGroupID);
-        buttonGroup.classList.add('active-content');
-        activateFirstButtonOfGroup(buttonGroup);
-      }
-
-      buttonGroups.forEach(group => {
-        const buttons = group.querySelectorAll('.btn');
-        buttons.forEach(button => {
-          button.addEventListener('click', function () {
-            deactivateAll(buttons);
-            activate(this, this.getAttribute('data-target'));
-          });
-        });
-      });
-
-      // Initialize the page with the first tab activated and its first button active
-      if (tabs.length > 0) {
-        tabs[0].click();
-      }
-    });
-  </script>
 </body>
 </html>

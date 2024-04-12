@@ -1,0 +1,87 @@
+/* Set box-sizing for all elements to ensure padding and borders are included in the total width and height */
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Adjustments for all input-box class elements */
+  .input-box {
+      margin-bottom: 20px;
+      text-align: center;
+  }
+  
+  /* Style for inputs and textareas */
+  .input-box input[type="text"],
+  .input-box textarea {
+      width: 100%;
+      max-width: 400px; /* Adjust the max-width as needed */
+      display: block;
+      margin: 0 auto; /* Center the inputs within the input-box */
+  }
+  
+  /* Grid base styles */
+  .grid, .adfgvx-grid {
+      margin-top: 20px;
+      gap: 0px; /* Spacing between grid items */
+      justify-content: center; /* Center the grid items */
+      align-items: center; /* Vertically align the grid items */
+  }
+  
+  /* Specific styles for the ADFGX grid */
+  .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 40px); /* Set number of columns to 5 + 1 label */
+  }
+  
+  /* Specific styles for the ADFGVX grid */
+  .adfgvx-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 40px); /* Set number of columns to 6 + 1 label */
+      margin: 0 auto; /* Center the grid horizontally */
+  }
+  
+  /* Styles for individual cells within the grids */
+  .cell, .header .cell {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border: 1px solid #ccc;
+  }
+  
+  /* Styles for input elements within cells */
+  .cell input[type="text"] {
+      width: 100%; /* Make input take full width of the cell */
+      height: 100%; /* Make input take full height of the cell */
+      border: none; /* Remove border as the cell already has one */
+      padding: 0; /* Remove padding to ensure inputs fit within cells */
+    text-align: center;
+  }
+  
+  /* Styles for label cells */
+  .cell.label {
+      background-color: #e6e6e6; /* Light grey background for label cells */
+      font-weight: bold; /* Make label text bold */
+  }
+  
+  /* Container for the submit and reset buttons */
+  .btn-submit-container {
+      display: flex;
+      justify-content: center; /* Center buttons in container */
+      gap: 10px; /* Space between buttons */
+      margin-top: 20px; /* Space above the buttons */
+  }
+  
+  /* Individual button styles */
+  .btn-submit-container button {
+      padding: 0.375rem 0.75rem; /* Padding to match Bootstrap's button styling */
+  }
+  
+  /* Additional styles if needed for responsiveness or specific elements */
+  @media (max-width: /* Your specific breakpoint here */) {
+    /* Your responsive styles here */
+  }
+  
+  /* Any other styles you need */
+  

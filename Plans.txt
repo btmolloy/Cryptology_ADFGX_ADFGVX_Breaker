@@ -1,0 +1,26 @@
+ADFGX Encrypt Logic:
+
+5 x 5 grid of inputs
+
+Inputs:
+ - KeyWord
+ - Plaintext
+ - Grid Keyblock
+
+ Output:
+- CipherText
+
+
+
+ADFGX Decypher Logic:
+
+Inputs:
+ - KeyWord
+ - Cipher Text
+ - Grid Keyblock
+
+
+Output:
+- Plaintext
+
+
