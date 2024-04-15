@@ -190,7 +190,7 @@
             // Clear the keyword and cipher text inputs
             document.getElementById('keyword1').value = '';
             document.getElementById('plainText1').value = '';
-            document.getElementById('result1').textContent = '';
+            document.getElementById('resultText1').textContent = '';
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid1 .row .cell input');
@@ -202,7 +202,7 @@
             // Clear the keyword and cipher text inputs
             document.getElementById('keyword2').value = '';
             document.getElementById('cipherText2').value = '';
-            document.getElementById('result2').textContent = '';
+            document.getElementById('resultText2').textContent = '';
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid2 .row .cell input');
@@ -214,7 +214,7 @@
             // Clear the keyword and cipher text inputs
             document.getElementById('keyword3').value = '';
             document.getElementById('plainText3').value = '';
-            document.getElementById('result3').textContent = '';
+            document.getElementById('resultText3').textContent = '';
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid3 .row .cell input');
@@ -226,7 +226,7 @@
             // Clear the keyword and cipher text inputs
             document.getElementById('keyword4').value = '';
             document.getElementById('cipherText4').value = '';
-            document.getElementById('result4').textContent = '';
+            document.getElementById('resultText4').textContent = '';
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid4 .row .cell input');
@@ -305,6 +305,8 @@ document.getElementById('copyResult4').addEventListener('click', function () {
     // COMPLETED. ALSO ALL SPACES HAVE BEEN REMOVED FROM THEY KEYWORD AND PLAINTEXT/CIPHERTEXT.
 
     // AN IMPORTANT THING TO REMEMBER WHILE COMPARING STRINGS IS I AND J ARE ON THE SAME GRID CELL
+
+    // Error checking also checks for no input from user so the past variable SHOULD... contain something.
 
 
 
@@ -389,6 +391,11 @@ document.getElementById('copyResult4').addEventListener('click', function () {
 
   function validateADFGVXCipherText(cipherText, num) {
     let processedCipherText = cipherText.toLowerCase().replace(/\s+/g, '');
+    
+    if (processedCipherText === "") {
+      displayError('Please enter Cipher Text.', num);
+      return false;
+    }
     if (!/^[adfgvx]+$/.test(processedCipherText)) {
       displayError('Cipher Text for ADFGVX must only contain the letters A, D, F, G, V, X.', num);
       return false;
@@ -398,10 +405,15 @@ document.getElementById('copyResult4').addEventListener('click', function () {
 
   function validateADFGXCipherText(cipherText, num) {
     let processedCipherText = cipherText.toLowerCase().replace(/\s+/g, '');
+    if (processedCipherText === "") {
+      displayError('Please enter Cipher Text.', num);
+      return false;
+    }
     if (!/^[adfgx]+$/.test(processedCipherText)) {
       displayError('Cipher Text for ADFGX must only contain the letters A, D, F, G, X.', num);
       return false;
     }
+    
     return processedCipherText;
   }
 
@@ -410,6 +422,10 @@ document.getElementById('copyResult4').addEventListener('click', function () {
     let processedPlainText = plainText.toLowerCase().replace(/[\s+\.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
     // Check each character
+    if (processedPlainText === "") {
+      displayError('Please enter Plain Text.', num);
+      return false;
+    }
     for (let char of processedPlainText) {
       if (!gridArray.includes(char) && !/[\d\W_]/.test(char)) {
         displayError(`Character "${char}" in plain text is not found in the grid.`, num);
@@ -421,6 +437,11 @@ document.getElementById('copyResult4').addEventListener('click', function () {
 
   function validateKeyword(keyword, num) {
     let processedKeyword = keyword.toLowerCase().replace(/\s+/g, '');
+    
+    if (processedKeyword === "") {
+      displayError('Please enter Keyword.', num);
+      return false;
+    }
     if (!/^[a-z]+$/.test(processedKeyword)) {
       displayError('Keyword must only contain letters from a-z.', num);
       return false;
