@@ -76,7 +76,7 @@
         const validatedKeyword = validateKeyword(keyword, num);
         if (validatedKeyword === false) return;
         
-        const validatedPlainText = validatePlainText(plainText, gridValues, num);
+        const validatedPlainText = validatePlainText(plainText, validatedArray, num);
         if (validatedPlainText === false) return;
 
 
@@ -139,7 +139,7 @@
             const validatedKeyword = validateKeyword(keyword, num);
             if (validatedKeyword === false) return;
             
-            const validatedPlainText = validatePlainText(plainText, gridValues, num);
+            const validatedPlainText = validatePlainText(plainText, validatedArray, num);
             if (validatedPlainText === false) return;
 
           
@@ -315,49 +315,180 @@ document.getElementById('copyResult4').addEventListener('click', function () {
     // Error checking also checks for no input from user so the past variable SHOULD... contain something.*
 
 
+    // --------------------------------------------------ADFGXEncrypt BELOW--------------------------------------------------------------
 
     function calculateResultADFGXEncrypt(keyword, plainText, gridValues) {
       console.log(gridValues.length);
       console.log(gridValues)
 
-      for (let i = 0; i < gridValues.length; i++) {
-        console.log(gridValues[i]);
+      CTSTRING = mapPlaintextToGrid(gridValues, plainText)
+      console.log(CTSTRING)
 
-      
-        const rows = 5;
-        const columns = 5;
-  
-        let column = Math.floor(gridValues / rows);  // Determine the column by integer division
-        let row = index % rows;                // Determine the row by the remainder
-  
-        console.log(row, column);
-      }
-      
-      
-      
-      
-      
-
-
-
+      const encryptedText = createColumnarTranspositionCipher(CTSTRING, keyword);
       // Return the calculated result as a string
-      console.log(keyword)
-      console.log(plainText)
-      console.log(gridValues)
-      return "Calculated Result 1"; 
+      //console.log(keyword)
+      //console.log(plainText)
+      //console.log(gridValues)
+      return encryptedText; 
   }
 
-  function findLetterIndex(array, letter) {
-    if (array.length > 25) {
-        throw new Error("Array size should not exceed 25 elements.");
-    }
 
-    const index = array.indexOf(letter);
+  function mapPlaintextToGrid(grid, plaintext) {
+    const locations = [];
+    for (let i = 0; i < plaintext.length; i++) {
+        const letter = plaintext[i];
+        const index = findLetterIndex(grid, letter);
+        const position = getIndexPosition(index);
+        locations.push(`${position.row}${position.column}`);  // Append position code to the array
+    }
+    const resultString = locations.join('');  // Join all position codes into a single string
+    console.log(resultString);
+    return resultString;  // Returning the string if needed elsewhere
+}
+
+function getIndexPosition(index) {
+    const labels = ['A', 'D', 'F', 'G', 'X'];  // Labels for rows and columns
+    let column = labels[Math.floor(index / 5)];  // Determine column by dividing index by number of rows
+    let row = labels[index % 5];  // Determine row by modulus operation
+    return { row, column };
+}
+
+function findLetterIndex(grid, letter) {
+    const index = grid.indexOf(letter);
     if (index === -1) {
         throw new Error(`The letter '${letter}' is not in the array.`);
     }
-
     return index;
+}
+
+function createColumnarTranspositionCipher(text, keyword) {
+  // Normalize text and keyword
+  keyword = keyword.replace(/[^A-Z]/gi, '').toUpperCase();
+
+  // Create the grid dimensions
+  const columns = keyword.length;
+  const rows = Math.ceil(text.length / columns);
+  const grid = [];
+
+  // Populate the grid with the text
+  for (let i = 0; i < rows; i++) {
+      const row = [];
+      for (let j = 0; j < columns; j++) {
+          const charIndex = i * columns + j;
+          row.push(charIndex < text.length ? text[charIndex] : ''); // Fill with empty string if out of text length
+      }
+      grid.push(row);
+  }
+
+  // Map the keyword to column indices
+  const sortedKeyword = keyword.split('').map((letter, index) => ({ letter, index }))
+      .sort((a, b) => a.letter.localeCompare(b.letter));
+  const columnIndexOrder = sortedKeyword.map(item => item.index);
+
+  // Extract columns based on sorted keyword indices
+  let ciphertext = '';
+  for (const index of columnIndexOrder) {
+      for (let row = 0; row < rows; row++) {
+          if (grid[row][index] !== '') {
+              ciphertext += grid[row][index];
+          }
+      }
+  }
+
+  return ciphertext;
+}
+    // --------------------------------------------------ADFGXEncrypt ABOVE--------------------------------------------------------------
+
+    // --------------------------------------------------ADFGXDecrypt BELOW--------------------------------------------------------------
+
+
+    function calculateResultADFGXDecrypt(keyword, cipherText, gridValues) {
+
+      const transposedCT = reverseColumnarTransposition(cipherText, keyword);
+      console.log("Transposed CT:", transposedCT);
+
+      // Return the calculated result as a string
+      //console.log(keyword)
+      //console.log(cipherText)
+      //console.log(gridValues)
+      return "Calculated Result 2"; 
+  }
+
+  function reverseColumnarTransposition(CT, keyword) {
+    keyword = keyword.replace(/[^A-Z]/gi, '').toUpperCase();
+    const keywordLength = keyword.length;
+    const sortedKeyword = keyword.split('').sort().join('');
+    const numCols = sortedKeyword.length;
+    const numRows = Math.ceil(CT.length / numCols);
+    const transposed = [];
+
+    // Initialize the transposed array with placeholders
+    for (let i = 0; i < numCols; i++) {
+        transposed[i] = new Array(numRows).fill('');
+    }
+
+    // Determine the order to place the ciphertext in columns based on the original keyword's letter positions
+    const order = [...keyword].map((k, i) => ({ letter: k, originalPos: i }))
+        .sort((a, b) => a.letter.localeCompare(b.letter) || a.originalPos - b.originalPos)
+        .map(item => item.originalPos);
+
+    // Place the ciphertext into the transposed columns
+    let ctPointer = 0;
+    for (let n = 0; n < order.length; n++) {
+        for (let r = 0; r < numRows && ctPointer < CT.length; r++) {
+            transposed[order[n]][r] = CT[ctPointer++];
+        }
+    }
+
+    // Read off the rows to get the original order before columnar transposition
+    let output = '';
+    for (let r = 0; r < numRows; r++) {
+        for (let n = 0; n < order.length; n++) {
+            output += transposed[n][r];
+        }
+    }
+
+    // Return the transposed CT
+    return output.replace(/[^A-Z]/g, ''); // Removes any placeholders
+}
+
+// Example usage
+const CT = "XXFDDDADAAGDXG";
+const keyword = "test";
+const transposedCT = reverseColumnarTransposition(CT, keyword);
+console.log("Transposed CT:", transposedCT);
+
+
+
+function decryptGridToPlaintext(grid, encryptedString ) {
+  const labels = ['A', 'D', 'F', 'G', 'X']; // Labels for rows and columns
+  let plaintext = '';
+
+  // Assuming encryptedString is divided into pairs correctly,
+  // and each pair represents column-row (in this order).
+  for (let i = 0; i < encryptedString.length; i += 2) {
+      const colLabel = encryptedString[i];  // First character is the column
+      const rowLabel = encryptedString[i + 1];  // Second character is the row
+
+      const column = labels.indexOf(colLabel); // Find the index of column label
+      const row = labels.indexOf(rowLabel); // Find the index of row label
+
+      // Ensure column and row are valid
+      if (column === -1 || row === -1) {
+          throw new Error(`Invalid label in ciphertext: ${colLabel}${rowLabel}`);
+      }
+
+      // Calculate the index in the grid using the reverse of getIndexPosition
+      const index = row * 5 + column; // Here we switch to row-major order
+      const letter = grid[index];
+      if (letter) {
+          plaintext += letter;
+      } else {
+          throw new Error(`Could not find letter at index ${index}`);
+      }
+  }
+
+  return plaintext;
 }
 
 
@@ -374,23 +505,7 @@ document.getElementById('copyResult4').addEventListener('click', function () {
 
 
 
-
-
-
-
-
-
-
-  
-
-    function calculateResultADFGXDecrypt(keyword, cipherText, gridValues) {
-      // Your calculation logic here...
-      // Return the calculated result as a string
-      console.log(keyword)
-      console.log(cipherText)
-      console.log(gridValues)
-      return "Calculated Result 2"; 
-  }
+      // --------------------------------------------------ADFGXDecrypt ABOVE--------------------------------------------------------------
 
 
     function calculateResultADFGVXEncrypt(keyword, plainText, gridValues) {
