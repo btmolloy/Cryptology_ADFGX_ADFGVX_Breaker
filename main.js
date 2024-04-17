@@ -317,13 +317,70 @@ document.getElementById('copyResult4').addEventListener('click', function () {
 
 
     function calculateResultADFGXEncrypt(keyword, plainText, gridValues) {
-      // Your calculation logic here...
+      console.log(gridValues.length);
+      console.log(gridValues)
+
+      for (let i = 0; i < gridValues.length; i++) {
+        console.log(gridValues[i]);
+
+      
+        const rows = 5;
+        const columns = 5;
+  
+        let column = Math.floor(gridValues / rows);  // Determine the column by integer division
+        let row = index % rows;                // Determine the row by the remainder
+  
+        console.log(row, column);
+      }
+      
+      
+      
+      
+      
+
+
+
       // Return the calculated result as a string
       console.log(keyword)
       console.log(plainText)
       console.log(gridValues)
       return "Calculated Result 1"; 
   }
+
+  function findLetterIndex(array, letter) {
+    if (array.length > 25) {
+        throw new Error("Array size should not exceed 25 elements.");
+    }
+
+    const index = array.indexOf(letter);
+    if (index === -1) {
+        throw new Error(`The letter '${letter}' is not in the array.`);
+    }
+
+    return index;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
     function calculateResultADFGXDecrypt(keyword, cipherText, gridValues) {
