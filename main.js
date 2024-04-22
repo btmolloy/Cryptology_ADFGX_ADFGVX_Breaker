@@ -414,49 +414,58 @@ function createColumnarTranspositionCipher(text, keyword) {
       return "Calculated Result 2"; 
   }
 
-  function reverseColumnarTransposition(CT, keyword) {
-    keyword = keyword.replace(/[^A-Z]/gi, '').toUpperCase();
-    const keywordLength = keyword.length;
-    const sortedKeyword = keyword.split('').sort().join('');
-    const numCols = sortedKeyword.length;
-    const numRows = Math.ceil(CT.length / numCols);
-    const transposed = [];
 
-    // Initialize the transposed array with placeholders
-    for (let i = 0; i < numCols; i++) {
-        transposed[i] = new Array(numRows).fill('');
-    }
 
-    // Determine the order to place the ciphertext in columns based on the original keyword's letter positions
-    const order = [...keyword].map((k, i) => ({ letter: k, originalPos: i }))
-        .sort((a, b) => a.letter.localeCompare(b.letter) || a.originalPos - b.originalPos)
-        .map(item => item.originalPos);
 
-    // Place the ciphertext into the transposed columns
-    let ctPointer = 0;
-    for (let n = 0; n < order.length; n++) {
-        for (let r = 0; r < numRows && ctPointer < CT.length; r++) {
-            transposed[order[n]][r] = CT[ctPointer++];
-        }
-    }
 
-    // Read off the rows to get the original order before columnar transposition
-    let output = '';
-    for (let r = 0; r < numRows; r++) {
-        for (let n = 0; n < order.length; n++) {
-            output += transposed[n][r];
-        }
-    }
+  // Function to perform reverse columnar transposition based on the provided keyword and ciphertext
+function reverseColumnarTransposition(cipherText, keyword) {
+  // Calculate the length of the keyword and store it as a constant
+  const keywordLength = keyword.length;
 
-    // Return the transposed CT
-    return output.replace(/[^A-Z]/g, ''); // Removes any placeholders
+  // Create an array to hold sub-arrays, with each sub-array representing a column in the transposition
+  let columns = new Array(keywordLength);
+
+  // Determine the number of rows, rounding up if there's a fractional part
+  const rows = Math.ceil(cipherText.length / keywordLength);
+
+  // Initialize each sub-array with a determined number of rows
+  for (let i = 0; i < keywordLength; i++) {
+      columns[i] = new Array(rows).fill('');
+  }
+
+  // Create a sorting order for the keyword (e.g., "atlas" -> "15324")
+  const order = keyword.split('')
+                       .map((char, index) => ({ char, index }))
+                       .sort((a, b) => a.char.localeCompare(b.char) || a.index - b.index)
+                       .map(item => item.index);
+
+  // Determine padding at the end of some columns
+  const padding = cipherText.length % keywordLength;
+
+  // If there's padding needed, mark the extra spaces in the relevant columns
+  if (padding > 0) {
+      for (let i = keywordLength - padding; i < keywordLength; i++) {
+          columns[order[i]][rows - 1] = 'X';  // Use 'X' to mark padding
+      }
+  }
+
+  // Fill the columns with the cipher text based on the calculated order and taking padding into account
+  let charIndex = 0;
+  for (let col = 0; col < keywordLength; col++) {
+      for (let row = 0; row < rows; row++) {
+          if (columns[order[col]][row] !== 'X') {
+              if (charIndex < cipherText.length) {
+                  columns[order[col]][row] = cipherText[charIndex++];
+              }
+          }
+      }
+  }
+
+  // Console output of the filled multi-dimensional array
+  console.log(columns);
+  return columns;
 }
-
-// Example usage
-const CT = "XXFDDDADAAGDXG";
-const keyword = "test";
-const transposedCT = reverseColumnarTransposition(CT, keyword);
-console.log("Transposed CT:", transposedCT);
 
 
 
