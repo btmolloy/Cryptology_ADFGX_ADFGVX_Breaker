@@ -63,6 +63,13 @@
         e.preventDefault(); // Prevent the default form submit action
         const keyword = document.getElementById('keyword1').value;
         const plainText = document.getElementById('plainText1').value;
+        const translateFromSelect = document.getElementById('translateFrom1');
+        const translateIntoSelect = document.getElementById('translateInto1')
+        const fromValue = translateFromSelect.options[translateFromSelect.selectedIndex].value;
+        const intoValue = translateIntoSelect.options[translateIntoSelect.selectedIndex].value;
+        
+        //console.log(fromValue);
+        //console.log(intoValue);
         //console.log('PAGE 1: Keyword:', keyword);
         //console.log('Plain Text:', plainText);
         let num = 1;
@@ -76,9 +83,10 @@
         const validatedKeyword = validateKeyword(keyword, num);
         if (validatedKeyword === false) return;
         
-        const validatedPlainText = validatePlainText(plainText, validatedArray, num);
+        const validatedPlainText = validatePlainText(plainText, validatedArray, fromValue, intoValue, num);
         if (validatedPlainText === false) return;
 
+        console.log('Plain Text:', validatedPlainText);
 
 
         let result = calculateResultADFGXEncrypt(validatedKeyword, validatedPlainText, validatedArray);
@@ -591,11 +599,18 @@ function decodeCipherText(cipherText, grid) {
     
     return processedCipherText;
   }
-
-  function validatePlainText(plainText, gridArray, num) {
+  function validatePlainText(plainText, gridArray, fromValue, intoValue,  num) {
     // Convert to lowercase, remove spaces and punctuation
     let processedPlainText = plainText.toLowerCase().replace(/[\s+\.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
+    // Ensure fromValue is in lowercase for comparison
+    let fromValueLower = fromValue.toLowerCase();
+
+    // Replace all occurrences of fromValue with intoValue
+    processedPlainText = processedPlainText.split('').map(char => 
+        char === fromValueLower ? intoValue.toLowerCase() : char
+    ).join('');    
+
     // Check each character
     if (processedPlainText === "") {
       displayError('Please enter Plain Text.', num);
