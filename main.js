@@ -405,112 +405,100 @@ function createColumnarTranspositionCipher(text, keyword) {
     function calculateResultADFGXDecrypt(keyword, cipherText, gridValues) {
 
       const transposedCT = reverseColumnarTransposition(cipherText, keyword);
-      console.log("Transposed CT:", transposedCT);
-
+      const final = decodeCipherText(transposedCT, gridValues);
       // Return the calculated result as a string
       //console.log(keyword)
       //console.log(cipherText)
-      //console.log(gridValues)
-      return "Calculated Result 2"; 
+      //console.log(gridValues);
+      return final; 
   }
 
 
 
 
 
-  // Function to perform reverse columnar transposition based on the provided keyword and ciphertext
-function reverseColumnarTransposition(cipherText, keyword) {
-  // Calculate the length of the keyword and store it as a constant
-  const keywordLength = keyword.length;
+  function reverseColumnarTransposition(cipherText, keyword) {
+    // 1. Determine the number of columns and rows
+    const keywordLength = keyword.length;
+    const rows = Math.ceil(cipherText.length / keywordLength);
+    let multiDimensionalArray = Array.from({ length: keywordLength }, () => new Array(rows).fill(''));
 
-  // Create an array to hold sub-arrays, with each sub-array representing a column in the transposition
-  let columns = new Array(keywordLength);
-
-  // Determine the number of rows, rounding up if there's a fractional part
-  const rows = Math.ceil(cipherText.length / keywordLength);
-
-  // Initialize each sub-array with a determined number of rows
-  for (let i = 0; i < keywordLength; i++) {
-      columns[i] = new Array(rows).fill('');
-  }
-
-  // Create a sorting order for the keyword (e.g., "atlas" -> "15324")
-  const order = keyword.split('')
-                       .map((char, index) => ({ char, index }))
-                       .sort((a, b) => a.char.localeCompare(b.char) || a.index - b.index)
-                       .map(item => item.index);
-
-  // Determine padding at the end of some columns
+  // Calculate padding and mark the padding positions with 'X'
   const padding = cipherText.length % keywordLength;
-
-  // If there's padding needed, mark the extra spaces in the relevant columns
-  if (padding > 0) {
-      for (let i = keywordLength - padding; i < keywordLength; i++) {
-          columns[order[i]][rows - 1] = 'X';  // Use 'X' to mark padding
-      }
+  if (padding !== 0) {
+    let paddingAmount = keywordLength - padding;
+    for (let i = 0; i < paddingAmount; i++) {
+      multiDimensionalArray[(keywordLength - 1) - i][rows - 1] = 'X';
+    }
   }
 
-  // Fill the columns with the cipher text based on the calculated order and taking padding into account
-  let charIndex = 0;
-  for (let col = 0; col < keywordLength; col++) {
-      for (let row = 0; row < rows; row++) {
-          if (columns[order[col]][row] !== 'X') {
-              if (charIndex < cipherText.length) {
-                  columns[order[col]][row] = cipherText[charIndex++];
-              }
-          }
-      }
-  }
 
-  // Console output of the filled multi-dimensional array
-  console.log(columns);
-  return columns;
+   
+    // Create an array of keyword characters with their indexes
+    let sortedKeywordIndexes = keyword.split('')
+        .map((char, index) => ({ char, index }))
+        .sort((a, b) => a.char.localeCompare(b.char) || a.index - b.index);
+  
+    // Fill the arrays with the ciphertext
+    let cipherIndex = 0;
+    for (const { index } of sortedKeywordIndexes) {
+        for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+            if (multiDimensionalArray[index][rowIndex] === '') {
+                if (cipherIndex < cipherText.length) {
+                    multiDimensionalArray[index][rowIndex] = cipherText.charAt(cipherIndex);
+                    cipherIndex++;
+                }
+            }
+        }
+    }
+
+    let finalString = '';
+    const rowsfinal = multiDimensionalArray[0].length;
+  
+    // Loop through each index in the row
+    for (let rowIndex = 0; rowIndex < rowsfinal; rowIndex++) {
+        // Loop through each column array
+        for (let arrayIndex = 0; arrayIndex < multiDimensionalArray.length; arrayIndex++) {
+            if (multiDimensionalArray[arrayIndex][rowIndex] !== 'X') {
+                finalString += multiDimensionalArray[arrayIndex][rowIndex];
+            }
+        }
+    }
+
+    return finalString;
 }
 
 
-
-function decryptGridToPlaintext(grid, encryptedString ) {
+function decodeCipherText(cipherText, grid) {
   const labels = ['A', 'D', 'F', 'G', 'X']; // Labels for rows and columns
-  let plaintext = '';
 
-  // Assuming encryptedString is divided into pairs correctly,
-  // and each pair represents column-row (in this order).
-  for (let i = 0; i < encryptedString.length; i += 2) {
-      const colLabel = encryptedString[i];  // First character is the column
-      const rowLabel = encryptedString[i + 1];  // Second character is the row
+  cipherText = cipherText.toUpperCase(); 
+  //console.log("cipherText: " + cipherText);
 
-      const column = labels.indexOf(colLabel); // Find the index of column label
-      const row = labels.indexOf(rowLabel); // Find the index of row label
+  let decodedString = '';
 
-      // Ensure column and row are valid
-      if (column === -1 || row === -1) {
-          throw new Error(`Invalid label in ciphertext: ${colLabel}${rowLabel}`);
-      }
+  // Process two characters at a time
+  for (let i = 0; i < cipherText.length; i += 2) {
+      const rowChar = cipherText[i];
+      const colChar = cipherText[i + 1];
 
-      // Calculate the index in the grid using the reverse of getIndexPosition
-      const index = row * 5 + column; // Here we switch to row-major order
-      const letter = grid[index];
-      if (letter) {
-          plaintext += letter;
-      } else {
-          throw new Error(`Could not find letter at index ${index}`);
-      }
+
+      // Find the row and column numbers
+      const row = labels.indexOf(rowChar);
+      const col = labels.indexOf(colChar);
+
+      //console.log("Row: " + row + " | Col: " + col);
+
+
+
+      // Convert row and column back to index in the grid
+      const gridIndex = col * 5 + row;
+      decodedString += grid[gridIndex];
   }
 
-  return plaintext;
+  //console.log(decodedString);
+  return decodedString;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
