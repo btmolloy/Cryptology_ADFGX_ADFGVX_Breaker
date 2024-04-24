@@ -532,13 +532,48 @@ function decodeCipherText(cipherText, grid) {
 
 
     function calculateResultADFGVXDecrypt(keyword, cipherText, gridValues) {
-      // Your calculation logic here...
+      
+      const transposedCT = reverseColumnarTransposition(cipherText, keyword);
+      console.log(transposedCT)
+      const final = decodeCipherTextADFGVX(transposedCT, gridValues);
       // Return the calculated result as a string
+      console.log(final)
       console.log(keyword)
       console.log(cipherText)
       console.log(gridValues)
 
-      return "Calculated Result 4"; 
+      return final; 
+  }
+
+  function decodeCipherTextADFGVX(cipherText, grid) {
+    const labels = ['A', 'D', 'F', 'G', 'V', 'X']; // Labels for rows and columns
+  
+    cipherText = cipherText.toUpperCase(); 
+    //console.log("cipherText: " + cipherText);
+  
+    let decodedString = '';
+  
+    // Process two characters at a time
+    for (let i = 0; i < cipherText.length; i += 2) {
+        const rowChar = cipherText[i];
+        const colChar = cipherText[i + 1];
+  
+  
+        // Find the row and column numbers
+        const row = labels.indexOf(rowChar);
+        const col = labels.indexOf(colChar);
+  
+        //console.log("Row: " + row + " | Col: " + col);
+  
+  
+  
+        // Convert row and column back to index in the grid
+        const gridIndex = col * 6 + row;
+        decodedString += grid[gridIndex];
+    }
+  
+    //console.log(decodedString);
+    return decodedString;
   }
 
 
