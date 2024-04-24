@@ -520,6 +520,7 @@ function decodeCipherText(cipherText, grid) {
 
       // --------------------------------------------------ADFGXDecrypt ABOVE--------------------------------------------------------------
 
+  // --------------------------------------------------ADFGVXEncrypt BELOW--------------------------------------------------------------
 
     function calculateResultADFGVXEncrypt(keyword, plainText, gridValues) {
       // Your calculation logic here...
@@ -527,9 +528,36 @@ function decodeCipherText(cipherText, grid) {
       console.log(keyword)
       console.log(plainText)
       console.log(gridValues)
-      return "Calculated Result 3"; 
+      const CTSTRING = mapPlaintextToGrid2(gridValues, plainText);
+      console.log(CTSTRING);
+      const encryptedText = createColumnarTranspositionCipher(CTSTRING, keyword);
+      console.log(encryptedText);
+      return encryptedText;
   }
 
+// mapPlaintextToGrid function remains the same as it doesn't depend on the grid size
+function mapPlaintextToGrid2(grid, plaintext) {
+  const locations = [];
+  for (let i = 0; i < plaintext.length; i++) {
+      const letter = plaintext[i];
+      const index = findLetterIndex(grid, letter);
+      const position = getIndexPosition2(index);
+      locations.push(`${position.row}${position.column}`);  // Append position code to the array
+  }
+  const resultString = locations.join('');  // Join all position codes into a single string
+  //console.log(resultString);
+  return resultString;  // Returning the string if needed elsewhere
+}
+
+// Modify getIndexPosition to accommodate a 6x6 grid
+function getIndexPosition2(index) {
+  const labels = ['A', 'D', 'F', 'G', 'V', 'X']; // Update labels for rows and columns
+  let column = labels[Math.floor(index / 6)]; // Determine column by dividing index by number of rows
+  let row = labels[index % 6]; // Determine row by modulus operation
+  return { row, column };
+}
+
+  // --------------------------------------------------ADFGVXEncrypt ABOVE--------------------------------------------------------------
 
     function calculateResultADFGVXDecrypt(keyword, cipherText, gridValues) {
       
