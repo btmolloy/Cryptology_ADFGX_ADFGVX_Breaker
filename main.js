@@ -644,7 +644,7 @@ function decodeCipherText(cipherText, grid) {
     
     return processedCipherText;
   }
-  function validatePlainTextADFGVX(plainText, gridArray,  num) {
+  function validatePlainTextADFGVX(plainText, gridArray, num) {
     // Convert to lowercase, remove spaces and punctuation
     let processedPlainText = plainText.toLowerCase().replace(/[\s+\.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
