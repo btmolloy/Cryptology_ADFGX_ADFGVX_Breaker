@@ -77,16 +77,15 @@
         const gridInputs = document.querySelectorAll('.grid1 .row .cell input');
         let gridValues = Array.from(gridInputs).map(input => input.value);
       
-        const validatedArray = validateArray(gridValues, num);
+        const validatedArray = validateArrayADFGX(gridValues, fromValue, intoValue, num);
         if (validatedArray === false) return;
 
         const validatedKeyword = validateKeyword(keyword, num);
         if (validatedKeyword === false) return;
         
-        const validatedPlainText = validatePlainText(plainText, validatedArray, fromValue, intoValue, num);
+        const validatedPlainText = validatePlainTextADFGX(plainText, validatedArray, fromValue, intoValue, num);
         if (validatedPlainText === false) return;
 
-        console.log('Plain Text:', validatedPlainText);
 
 
         let result = calculateResultADFGXEncrypt(validatedKeyword, validatedPlainText, validatedArray);
@@ -102,6 +101,10 @@
             e.preventDefault(); // Prevent the default form submit action
             const keyword = document.getElementById('keyword2').value;
             const cipherText = document.getElementById('cipherText2').value;
+            const translateFromSelect = document.getElementById('translateFrom2');
+            const translateIntoSelect = document.getElementById('translateInto2')
+            const fromValue = translateFromSelect.options[translateFromSelect.selectedIndex].value;
+            const intoValue = translateIntoSelect.options[translateIntoSelect.selectedIndex].value;
             //console.log('PAGE 2: Keyword:', keyword);
             //console.log('Cipher Text:', cipherText);
             let num = 2;
@@ -109,7 +112,7 @@
             const gridInputs = document.querySelectorAll('.grid2 .row .cell input');
             let gridValues = Array.from(gridInputs).map(input => input.value);
         
-            const validatedArray = validateArray(gridValues, num);
+            const validatedArray = validateArrayADFGX(gridValues, fromValue, intoValue, num);
             if (validatedArray === false) return;
 
             const validatedKeyword = validateKeyword(keyword, num);
@@ -141,13 +144,13 @@
             const gridInputs = document.querySelectorAll('.grid3 .row .cell input');
             let gridValues = Array.from(gridInputs).map(input => input.value);
         
-            const validatedArray = validateArray(gridValues, num);
+            const validatedArray = validateArrayADFGVX(gridValues, num);
             if (validatedArray === false) return;
 
             const validatedKeyword = validateKeyword(keyword, num);
             if (validatedKeyword === false) return;
             
-            const validatedPlainText = validatePlainText(plainText, validatedArray, num);
+            const validatedPlainText = validatePlainTextADFGVX(plainText, validatedArray, num);
             if (validatedPlainText === false) return;
 
           
@@ -173,7 +176,7 @@
             const gridInputs = document.querySelectorAll('.grid4 .row .cell input');
             let gridValues = Array.from(gridInputs).map(input => input.value);
         
-            const validatedArray = validateArray(gridValues, num);
+            const validatedArray = validateArrayADFGVX(gridValues, num);
             if (validatedArray === false) return;
 
             const validatedKeyword = validateKeyword(keyword, num);
@@ -199,6 +202,8 @@
             document.getElementById('keyword1').value = '';
             document.getElementById('plainText1').value = '';
             document.getElementById('resultText1').textContent = '';
+            resetDropdownToInitial('translateFrom1');
+            resetDropdownToInitial('translateInto1');
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid1 .row .cell input');
@@ -211,6 +216,9 @@
             document.getElementById('keyword2').value = '';
             document.getElementById('cipherText2').value = '';
             document.getElementById('resultText2').textContent = '';
+            resetDropdownToInitial('translateFrom2');
+            resetDropdownToInitial('translateInto2');
+
 
             // Clear all the grid inputs
             const gridInputs = document.querySelectorAll('.grid2 .row .cell input');
@@ -330,7 +338,7 @@ document.getElementById('copyResult4').addEventListener('click', function () {
       console.log(gridValues)
 
       CTSTRING = mapPlaintextToGrid(gridValues, plainText)
-      console.log(CTSTRING)
+      //console.log(CTSTRING)
 
       const encryptedText = createColumnarTranspositionCipher(CTSTRING, keyword);
       // Return the calculated result as a string
@@ -350,7 +358,7 @@ document.getElementById('copyResult4').addEventListener('click', function () {
         locations.push(`${position.row}${position.column}`);  // Append position code to the array
     }
     const resultString = locations.join('');  // Join all position codes into a single string
-    console.log(resultString);
+    //console.log(resultString);
     return resultString;  // Returning the string if needed elsewhere
 }
 
@@ -552,7 +560,43 @@ function decodeCipherText(cipherText, grid) {
     resultContainer.textContent = message;
   }
 
-  function validateArray(gridArray, num) {
+  function validateArrayADFGX(gridArray, fromValue, intoValue, num) {
+    let unique = new Set();
+    let processedArray = gridArray.map(value => {
+        let char = value.toLowerCase();
+        if (char === '' || char === ' ') {
+            return '*';  // Replace empty or space with '*'
+        }
+        if (unique.has(char)) {
+            displayError('Duplicate letters found in the array.', num);
+            return false;
+        }
+        unique.add(char);
+        return char;
+    });
+
+    if (processedArray.includes(false)) {
+        return false;
+    }
+
+    // Check if both fromValue and intoValue are in the grid
+    let fromValueLower = fromValue.toLowerCase();
+    let intoValueLower = intoValue.toLowerCase();
+    let fromExists = processedArray.includes(fromValueLower);
+    let intoExists = processedArray.includes(intoValueLower);
+
+    if (fromExists && intoExists) {
+        displayError('Both translation values are present in the grid.', num);
+        return false;
+    } else if (fromExists) {
+        // If fromValue is in the grid, replace it with intoValue in the processedArray
+        processedArray = processedArray.map(char => char === fromValueLower ? intoValueLower : char);
+    }
+
+    return processedArray;
+}
+
+  function validateArrayADFGVX(gridArray, num) {
     let unique = new Set();
     let processedArray = gridArray.map(value => {
       let char = value.toLowerCase();
@@ -571,6 +615,7 @@ function decodeCipherText(cipherText, grid) {
     }
     return processedArray;
   }
+
 
   function validateADFGVXCipherText(cipherText, num) {
     let processedCipherText = cipherText.toLowerCase().replace(/\s+/g, '');
@@ -599,7 +644,26 @@ function decodeCipherText(cipherText, grid) {
     
     return processedCipherText;
   }
-  function validatePlainText(plainText, gridArray, fromValue, intoValue,  num) {
+  function validatePlainTextADFGVX(plainText, gridArray,  num) {
+    // Convert to lowercase, remove spaces and punctuation
+    let processedPlainText = plainText.toLowerCase().replace(/[\s+\.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
+  
+    // Check each character
+    if (processedPlainText === "") {
+      displayError('Please enter Plain Text.', num);
+      return false;
+    }
+    for (let char of processedPlainText) {
+      if (!gridArray.includes(char) && !/[\d\W_]/.test(char)) {
+        displayError(`Character "${char}" in plain text is not found in the grid.`, num);
+        return false;
+      }
+    }
+    return processedPlainText;
+  }
+
+
+  function validatePlainTextADFGX(plainText, gridArray, fromValue, intoValue,  num) {
     // Convert to lowercase, remove spaces and punctuation
     let processedPlainText = plainText.toLowerCase().replace(/[\s+\.,\/#!$%\^&\*;:{}=\-_`~()]/g, '');
   
@@ -624,7 +688,6 @@ function decodeCipherText(cipherText, grid) {
     }
     return processedPlainText;
   }
-
   function validateKeyword(keyword, num) {
     let processedKeyword = keyword.toLowerCase().replace(/\s+/g, '');
     
@@ -638,3 +701,9 @@ function decodeCipherText(cipherText, grid) {
     }
     return processedKeyword;
   }
+
+  function resetDropdownToInitial(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    const defaultValue = dropdown.getAttribute('data-default-value');
+    dropdown.value = defaultValue;
+}
